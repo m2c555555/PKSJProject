@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Seefist</div>
+        <div class="menu" id="menu">
+          <a class="nav-button" href="#">Home</a>
+          <a class="nav-button" href="#">About</a>
+          <button class="login-btn">Login</button>
+        </div>        
+    </nav>
+
+    <div class="content">
+      {% block content %}{% endblock %}
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Powered by pksj</p>
+    </footer>
+
+    <script src="{% static 'script.js' %}"></script>
+
+</body>
+</html>
