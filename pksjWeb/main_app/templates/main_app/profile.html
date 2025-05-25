@@ -1,84 +1,67 @@
-{% load static %}
-
+<!-- templates/profile.html -->
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>หน้าแรก</title>
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Swiper CSS -->
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-  />
-
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Profile</title>
 </head>
-<body class="bg-white text-gray-800 font-sans">
+<body>
+    <h1>Welcome</h1>
+    <img src="{{ profile.picture }}" class="circle-image" />
+    <h2>{{ profile.name }}</h2>
+    <h2>แจ้งชำระเงิน</h2>
+    <h2>ประวัติการชำระเงินของคุณ</h2>
+<table border="1" cellpadding="8">
+    <thead>
+        <tr>
+            <th>วันที่โอน</th>
+            <th>จำนวนเงิน</th>
+            <th>สถานะ</th>
+            <th>สลิป</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in payments %}
+        <tr>
+            <td>{{ p.transfer_date }}</td>
+            <td>{{ p.amount }}</td>
+            <td>
+                {% if p.status == "Paid" %}
+                    ✅ {{ p.get_status_display }}
+                {% elif p.status == "overdue" %}
+                    ⚠️ {{ p.get_status_display }}
+                {% else %}
+                    ⏳ รอตรวจสอบ
+                {% endif %}
+            </td>
+            <td>
+                {% if p.slip_image %}
+                    <a href="{{ p.slip_image.url }}" target="_blank">
+                        <img src="{{ p.slip_image.url }}" width="80" />
+                    </a>
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">ยังไม่มีรายการชำระเงิน</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-  <!-- Header -->
-  <header class="text-center py-6 bg-blue-600 text-white text-2xl font-bold">
-    เว็บไซต์สินค้าโปรโมชั่น
-  </header>
-
-  <!-- Slider -->
-  <div class="swiper mySwiper w-full max-w-5xl mx-auto mt-4">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <img src="/media/slider/pic1.jpg" class="w-full" />
-      </div>
-      <div class="swiper-slide">
-        <img src="/media/slider/pic2.jpg" class="w-full" />
-      </div>
-      <div class="swiper-slide">
-        <img src="/media/slider/pic3.jpg" class="w-full" />
-      </div>
-    </div>
-    <!-- Navigation buttons -->
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-    <!-- Pagination dots -->
-    <div class="swiper-pagination"></div>
-  </div>
-
-  <!-- Login Button -->
-  <div class="text-center my-10">
-    <a
-      href="{% url 'account_logout' %}"
-      class="bg-blue-600 hover:bg-blue-700 text-white text-lg px-6 py-3 rounded-full shadow-md transition duration-300"
-    >
-      ออกจากระบบ
-    </a>
-  </div>
-
-  <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-  <script>
-    const swiper = new Swiper(".mySwiper", {
-      loop: true,
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-    });
-  </script>
+    
+    <a href="{% url 'account_logout' %}">Logout</a>
 </body>
+
+<style>
+    .circle-image {
+      width: 300x;
+      height:300px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+</style>
+
+
 </html>

@@ -40,6 +40,7 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 # Application definition
 
 INSTALLED_APPS = [
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -166,14 +167,20 @@ SOCIALACCOUNT_PROVIDERS = {
           }
       }
 
+
+SITE_ID = 1
+
+
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-SITE_ID = 1
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+
 LOGIN_REDIRECT_URL = '/profile'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = '/accounts/login/'
 
+
+ACCOUNT_LOGOUT_ON_GET = True
+SOCIALACCOUNT_LOGIN_ON_GET = True
